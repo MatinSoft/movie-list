@@ -2,6 +2,7 @@ import IMovie, { IPartialMovie } from '@/types/IMovie.interface';
 import axios from 'axios';
 import path from 'path';
 import fs from 'fs/promises';
+
 import IMoviePaginatedResult from '@/types/IPaginated.interface';
 
 const BASE_URL = 'https://api.themoviedb.org/3/discover/movie?'
