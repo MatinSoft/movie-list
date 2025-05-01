@@ -1,7 +1,7 @@
 "use client"
 import { IPartialMovie } from "@/types/IMovie.interface";
 import { fetchLastMonthMovies, getPaginatedAndSearchedMovies } from "@/utils/movieData"
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import CustomSpinner from "../Spinner/Spinner";
 import Spinner from "../Spinner/Spinner";
 import { ITEMS_PER_PAGE } from "@/constants/ItemPerPage";
@@ -35,12 +35,28 @@ const MovieGallery = () => {
         fetchData();
     }, [currentPage, searchTerm]);
 
-
+    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+        setCurrentPage(1);
+    }
 
     return (
-        <section className="w-full h-screen flex justify-center">
+        <section className="w-full h-screen flex justify-start gap-10 flex-col">
             <Spinner loading={loading} />
-            <h1 className="p-3.5 text-2xl font-bold">Last month movies</h1>
+            <h1 className="p-3.5 text-2xl font-bold text-center">Last month movies</h1>
+
+            <input
+                type="text"
+                placeholder="Search by title"
+                value={searchTerm}
+                onChange={handleSearch}
+            />
+
+            <div className="flex justify-center items-center h-full">
+
+                {movies.map((movie: IPartialMovie) => { return (<h1>{movie.title}</h1>) })}
+            </div>
+
         </section>
     )
 }
