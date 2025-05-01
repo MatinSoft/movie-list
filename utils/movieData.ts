@@ -1,10 +1,14 @@
-import IMovie from '@/types/IMovie.interface';
+import IMovie, { IPartialMovie } from '@/types/IMovie.interface';
 import axios from 'axios';
+import path from 'path';
+import fs from 'fs/promises';
+import IMoviePaginatedResult from '@/types/IPaginated.interface';
 
 const BASE_URL = 'https://api.themoviedb.org/3/discover/movie?'
 const API_KEY = process.env.API_KEY
+const dataFilePath = path.join(process.cwd(), 'data', 'last_month_movies.json');
 
-async function fetchLastMonthMovies() {
+async function fetchLastMonthMovies(): Promise<IPartialMovie[]> {
     const today = new Date();
     const lastMonthEnd = new Date(today);
     lastMonthEnd.setDate(0); // Sets to the last day of the previous month
@@ -35,6 +39,49 @@ async function fetchLastMonthMovies() {
         return [];
     }
 }
+
+async function saveMoviesLocally(movies: IPartialMovie[]) {
+    try {
+        await fs.writeFile(dataFilePath, JSON.stringify(movies, null, 2), 'utf-8');
+        console.log('Movies saved locally.');
+    } catch (error) {
+        console.error('Error saving movies locally:', error);
+    }
+}
+
+async function getLocalMovies() {
+    try {
+        const rawData = await fs.readFile(dataFilePath, 'utf-8');
+        return JSON.parse(rawData);
+    } catch (error) {
+        console.log('Local movies file not found or empty.');
+        return [];
+    }
+}
+
+
+export async function getPaginatedAndSearchedMovies(page: number, limit: number, searchTerm = ''): Promise<IMoviePaginatedResult> {
+    const allMovies = await getLocalMovies();
+    const filteredMovies = allMovies.filter((movie: IMovie) =>
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedMovies = filteredMovies.slice(startIndex, endIndex);
+
+    return {
+        movies: paginatedMovies,
+        total: filteredMovies.length,
+        totalPages: Math.ceil(filteredMovies.length / limit),
+    };
+}
+
+export async function updateLocalMovieData() {
+    const movies = await fetchLastMonthMovies();
+    await saveMoviesLocally(movies);
+}
+
 
 
 export {

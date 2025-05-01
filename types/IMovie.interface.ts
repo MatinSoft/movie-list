@@ -13,4 +13,6 @@ export default interface IMovie {
     "video": boolean,
     "vote_average": number,
     "vote_count": number
-} 
+}
+
+export type IPartialMovie = Pick<IMovie, "release_date" | "id" | "title" | "overview" | "poster_path">
