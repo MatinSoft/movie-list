@@ -5,7 +5,9 @@ const MovieGallery = async () => {
     console.log(movies)
 
     return (
-        <>HI</>
+        <section className="w-full h-screen flex justify-center">
+            <h1 className="p-3.5 text-2xl font-bold">Last month movies</h1>
+        </section>
     )
 }
 
