@@ -5,6 +5,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import CustomSpinner from "../Spinner/Spinner";
 import Spinner from "../Spinner/Spinner";
 import { ITEMS_PER_PAGE } from "@/constants/ItemPerPage";
+import MovieCard from "../MovieCard/MovieCard";
 
 const MovieGallery = () => {
 
@@ -41,7 +42,7 @@ const MovieGallery = () => {
     }
 
     return (
-        <section className="w-full h-screen flex justify-start gap-10 flex-col">
+        <section className="w-full h-screen flex justify-start gap-7 flex-col">
             <Spinner loading={loading} />
             <h1 className="p-3.5 text-2xl font-bold text-center">Last month movies</h1>
 
@@ -50,13 +51,13 @@ const MovieGallery = () => {
                 placeholder="Search by title"
                 value={searchTerm}
                 onChange={handleSearch}
+                className="border-1 border-amber-50 w-64 p-2 rounded-2xl ml-2.5"
             />
 
-            <div className="flex justify-center items-center h-full">
+            <div className="flex justify-start h-auto gap-0 items-center border-1 border-amber-50 flex-wrap overflow-x-hidden overflow-y-auto">
 
-                {movies.map((movie: IPartialMovie) => { return (<h1>{movie.title}</h1>) })}
+                {movies.map((movie: IPartialMovie, index: number) => { return (<MovieCard key={index + movie.id} movie={movie} />) })}
             </div>
-
         </section>
     )
 }
