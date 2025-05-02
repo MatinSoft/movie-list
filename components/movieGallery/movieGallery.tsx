@@ -83,7 +83,7 @@ const MovieGallery = () => {
                        focus:ring focus:ring-yellow-300 h-[45px]  text-[15px] cursor-pointer"
                     onClick={(e) => { onPageChanged(e, 'prv') }}>← PRV </button>
 
-                <span>{currentPage}</span>
+                <span className="mr-2">{currentPage}</span>
                 of
                 <span className="ml-2"> {totalPages}</span>
 
