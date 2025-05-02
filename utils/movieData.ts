@@ -62,14 +62,15 @@ async function getLocalMovies() {
 
 
 export async function getPaginatedAndSearchedMovies(page: number, limit: number, searchTerm = ''): Promise<IMoviePaginatedResult> {
-    const allMovies = await getLocalMovies();
+    const allMovies: IMovie[] = await getLocalMovies();
+    allMovies.sort((a: IMovie, b: IMovie) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime())
     const filteredMovies = allMovies.filter((movie: IMovie) =>
         movie.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
-    const paginatedMovies = filteredMovies.slice(startIndex, endIndex);
+    const paginatedMovies: IPartialMovie[] = filteredMovies.slice(startIndex, endIndex);
 
     return {
         movies: paginatedMovies,

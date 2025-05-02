@@ -13,8 +13,8 @@ const MovieCard: React.FC<IProps> = ({ movie }) => {
                 unoptimized
                 src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
                 alt={movie.title}
-                width={800}
-                height={800}
+                width={360}
+                height={300}
                 style={{ width: '100%', height: '300px' }}
             />
             <h1 className="font-bold text-2xl">{movie.title}</h1>
