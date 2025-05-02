@@ -5,7 +5,7 @@ import fs from 'fs/promises';
 
 import IMoviePaginatedResult from '@/types/IPaginated.interface';
 
-const BASE_URL = 'https://api.themoviedb.org/3/discover/movie?'
+const BASE_URL = process.env.BASE_URL
 const API_KEY = process.env.API_KEY
 const dataFilePath = path.join(process.cwd(), 'data', 'last_month_movies.json');
 
